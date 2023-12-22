@@ -5,114 +5,82 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {useState} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
-  StatusBar,
+  View,
   StyleSheet,
   Text,
-  useColorScheme,
-  View,
+  Button,
+  TextInput,
 } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Page1 from './src/page/Page1.tsx';
+import Test1 from './src/components/Test1.tsx';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const Stack = createNativeStackNavigator();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+function Child1({navigation}: any) {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View>
+      <Text>Child1</Text>
+      <Button title={'이동'} onPress={() => navigation.navigate('child2')} />
+    </View>
+  );
+}
+
+function Child2() {
+  const [state, setState] = useState<string>('');
+  return (
+    <View>
+      <TextInput
+        style={{height: 20, borderWidth: 1}}
+        onChangeText={text => setState(text)}
+        keyboardType={'default'}
+      />
     </View>
   );
 }
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={'child1'}>
+        <Stack.Screen name="child2" component={Child2} />
+        <Stack.Screen name="child1" component={Child1} />
+      </Stack.Navigator>
+      <View style={styles.testStyle1}>
+        <ScrollView>
+          <Test1 title={'안녕하세요'} text={'반갑습니다.'} />
+          <Test1 title={'안녕하세요'} text={'반갑습니다.'} />
+          <Test1 title={'안녕하세요'} text={'반갑습니다.'} />
+          <Test1 title={'안녕하세요'} text={'반갑습니다.'} />
+          <Test1 title={'안녕하세요'} text={'반갑습니다.'} />
+          <Test1 title={'안녕하세요'} text={'반갑습니다.'} />
+          <Test1 title={'안녕하세요'} text={'반갑습니다.'} />
+          <Test1 title={'안녕하세요'} text={'반갑습니다.'} />
+          <Test1 title={'안녕하세요'} text={'반갑습니다.'} />
+          <Test1 title={'안녕하세요'} text={'반갑습니다.'} />
+        </ScrollView>
+      </View>
+      <View style={styles.testStyle1}></View>
+    </NavigationContainer>
   );
 }
 
+export default App;
+
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  scrollStyle: {
+    height: 400,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  testStyle: {
+    height: 400,
+    backgroundColor: '#f3dede',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  testStyle1: {
+    height: 200,
+    backgroundColor: '#f3dede',
   },
 });
-
-export default App;
